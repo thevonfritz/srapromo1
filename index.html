@@ -5,322 +5,391 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Senhora Promo – Os Melhores Achados da Internet</title>
 
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23e91e8c'/%3E%3Cpath fill='white' d='M14 18h4l5 20h18l4-14H22'/%3E%3Ccircle cx='26' cy='42' r='3' fill='white'/%3E%3Ccircle cx='38' cy='42' r='3' fill='white'/%3E%3C/svg%3E" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23AF4056'/%3E%3Cpath fill='white' d='M14 18h4l5 20h18l4-14H22'/%3E%3Ccircle cx='26' cy='42' r='3' fill='white'/%3E%3Ccircle cx='38' cy='42' r='3' fill='white'/%3E%3C/svg%3E" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --gold:       #f0c842;
-      --gold-dark:  #d4a017;
-      --brown-dark: #1a0a04;
-      --brown-mid:  #3d1505;
-      --pink:       #e91e8c;
+      --bg:        #FAD3D2;
+      --pink:      #AF4056;
+      --pink-dark: #7B2035;
+      --gold:      #FBCA45;
+      --text-dark: #3D1020;
     }
 
     html, body {
       height: 100%;
-      font-family: 'Poppins', sans-serif;
-      color: #fff;
-      background: var(--brown-dark);
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
       overflow-x: hidden;
     }
 
-    /* ── Grid animado (desktop) ── */
-    .hero__grid {
-      display: none;
-      position: absolute;
-      inset: -100px;
-      z-index: 0;
-      background-image:
-        linear-gradient(rgba(240,200,66,0.07) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(240,200,66,0.07) 1px, transparent 1px);
-      background-size: 48px 48px;
-      animation: grid-drift 18s linear infinite;
-      pointer-events: none;
-    }
-    @keyframes grid-drift {
-      0%   { transform: translate(0, 0); }
-      100% { transform: translate(48px, 48px); }
-    }
-
-    @media (min-width: 900px) {
-      .hero__grid { display: block; }
-    }
-
-    /* ── Hero ── */
-    .hero {
-      position: relative;
+    .page {
       min-height: 100dvh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
     }
 
-    /* Fundo mobile (padrão) */
+    /* ══════════════════════════════════
+       HERO
+    ══════════════════════════════════ */
+    .hero {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 100dvh;
+      overflow: hidden;
+      background: linear-gradient(
+        105deg,
+        var(--pink-dark)  0%,
+        var(--pink)       22%,
+        #C87840           45%,
+        #D9A060           58%,
+        #C87840           72%,
+        var(--pink)       88%,
+        var(--pink-dark) 100%
+      );
+    }
+
+    /* ── Camada 1: Grid quadriculado (atrás de tudo) ── */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Camada 2: Imagem de fundo (sobre o grid) ── */
     .hero__bg {
       position: absolute;
       inset: 0;
       background-image: url('img/img1mobile.png');
       background-size: cover;
       background-position: center top;
-      background-color: var(--brown-mid);
-      z-index: 0;
-    }
-
-    /* Overlay mobile: escuro em cima e embaixo, transparente no meio */
-    .hero__overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(10,4,1,0.88) 0%,
-        rgba(10,4,1,0.50) 25%,
-        rgba(10,4,1,0.08) 42%,
-        rgba(10,4,1,0.08) 58%,
-        rgba(10,4,1,0.60) 75%,
-        rgba(10,4,1,0.92) 100%
-      );
       z-index: 1;
     }
+    @media (min-width: 900px) {
+      .hero__bg { background-image: url('img/img1.png'); }
+    }
 
-    /* ── Partículas ── */
-    .sparkles {
+    /* ── Camada 3: Confetti ── */
+    .confetti {
       position: absolute;
       inset: 0;
       pointer-events: none;
-      z-index: 3;
+      z-index: 2;
       overflow: hidden;
     }
-    .sparkle {
+    .confetti span {
       position: absolute;
-      opacity: 0;
-      animation: float-up var(--dur,4s) ease-in-out var(--delay,0s) infinite;
-    }
-    @keyframes float-up {
-      0%   { opacity: 0;   transform: translateY(0) scale(0.5); }
-      20%  { opacity: 0.7; }
-      80%  { opacity: 0.2; }
-      100% { opacity: 0;   transform: translateY(-80vh) scale(1.3); }
+      display: block;
+      border-radius: 2px;
     }
 
-    /* ── MOBILE: bloco do topo ── */
-    .hero__top {
+    /* ── Camada 4: Tags decorativas ── */
+    .deco-tag {
+      position: absolute;
+      z-index: 3;
+      font-size: clamp(1.6rem, 4vw, 3rem);
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+      pointer-events: none;
+      user-select: none;
+    }
+    .deco-tag--tl { top: 6%;  left: 3%;  transform: rotate(-15deg); }
+    .deco-tag--tr { top: 5%;  right: 4%; transform: rotate(12deg);  }
+
+    /* ── Camada 10: Conteúdo principal ── */
+    .hero__body {
       position: relative;
       z-index: 10;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: clamp(5rem,14vw,10rem) clamp(1.5rem,5vw,4rem) clamp(1rem,3vw,2rem);
+    }
+
+    .col-text {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: clamp(2.2rem, 10vw, 4rem) 1.5rem 0.5rem;
+      gap: 1.5rem;
     }
 
-    /* ── MOBILE: bloco da base ── */
-    .hero__bottom {
-      position: relative;
-      z-index: 10;
-      margin-top: auto;
+    .hero-logo {
+      width: auto;
+      height: clamp(60px, 10vw, 120px);
+      object-fit: contain;
+      display: block;
+      align-self: flex-start;
+      filter: drop-shadow(0 4px 14px rgba(0,0,0,0.30));
+    }
+
+    .headline {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 0.5rem 1.5rem clamp(2.2rem, 10vw, 4rem);
-      gap: 1.4rem;
+      line-height: 1.05;
     }
 
-    /* ── Rótulo "Sra Promo" ── */
-    .hl-label {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.50);
-      margin-bottom: 0.5rem;
+    .hl-dark {
+      font-family: 'Changa One', sans-serif;
+      font-size: clamp(2.2rem, 4.5vw, 5rem);
+      color: var(--text-dark);
+      letter-spacing: 0.01em;
+      text-shadow:
+        0 2px 6px rgba(0,0,0,0.30),
+        0 4px 18px rgba(0,0,0,0.18);
     }
-
-    /* ── "Os melhores" ── */
-    .hl-white {
-      font-family: 'Anton', sans-serif;
-      font-size: clamp(2.6rem, 12vw, 4.2rem);
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      color: #fff;
-      text-shadow: 0 3px 18px rgba(0,0,0,0.7);
-      line-height: 1;
-    }
-
-    /* ── dourado itálico ── */
     .hl-gold {
-      font-family: 'Anton', sans-serif;
-      font-size: clamp(2.6rem, 12vw, 4.2rem);
-      text-transform: uppercase;
-      font-style: italic;
-      letter-spacing: 0.03em;
+      font-family: 'Changa One', sans-serif;
+      font-size: clamp(2.2rem, 4.5vw, 5rem);
       color: var(--gold);
-      text-shadow: 0 3px 28px rgba(212,160,23,0.45);
-      line-height: 1;
+      letter-spacing: 0.01em;
+      text-shadow:
+        0 2px 8px rgba(0,0,0,0.35),
+        0 4px 22px rgba(0,0,0,0.20);
     }
 
-    /* ── Botão WhatsApp (verde, igual ao original) ── */
+    /* Botão */
     .cta-btn {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 0.6rem;
-      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
+      background: var(--gold);
+      color: var(--text-dark);
+      font-family: 'Inter', sans-serif;
       font-weight: 700;
-      font-size: clamp(1rem, 4vw, 1.2rem);
-      letter-spacing: 0.02em;
+      font-size: clamp(0.9rem, 1.8vw, 1.1rem);
       text-decoration: none;
-      padding: 1.05rem 2.2rem;
+      padding: 0.9rem 2rem;
       border-radius: 100px;
-      white-space: nowrap;
-      box-shadow:
-        0 0 0 3px rgba(37,211,102,0.35),
-        0 8px 32px rgba(18,140,126,0.55);
-      animation: glow-btn 2.5s ease-in-out infinite;
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      width: fit-content;
+      animation: glow-btn 2.4s ease-in-out infinite;
+      transition: opacity 0.18s, transform 0.18s;
     }
-    .cta-btn:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow:
-        0 0 0 7px rgba(37,211,102,0.2),
-        0 14px 44px rgba(18,140,126,0.65);
-    }
+    .cta-btn:hover { opacity: 0.88; transform: translateY(-2px); }
     .cta-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
 
     @keyframes glow-btn {
-      0%, 100% { box-shadow: 0 0 0 3px rgba(37,211,102,0.35), 0 8px 32px rgba(18,140,126,0.55); }
-      50%       { box-shadow: 0 0 0 9px rgba(37,211,102,0.12), 0 12px 44px rgba(18,140,126,0.70); }
+      0%,100% { box-shadow: 0 4px 16px rgba(200,150,40,0.40), 0 0 0 0px  rgba(251,202,69,0.30); }
+      50%      { box-shadow: 0 6px 28px rgba(200,150,40,0.65), 0 0 0 10px rgba(251,202,69,0.10); }
     }
 
-    /* Wrapper desktop — oculto por padrão (mobile-first) */
-    .hero__desktop {
-      display: none;
+    /* ══════════════════════════════════
+       CARROSSEL INFINITO
+       4 sets idênticos → translateX(-50%)
+       → cada metade ≈ 2640px > qualquer tela
+    ══════════════════════════════════ */
+    .marquee-strip {
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: clamp(3rem, 8vw, 7rem) clamp(2rem, 7vw, 9rem);
+      overflow: hidden;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-top:    1px solid rgba(255,255,255,0.25);
+      border-bottom: 1px solid rgba(255,255,255,0.25);
+      padding: 1rem 0;
     }
 
-    .hero__desktop .headline {
+    /* Máscara fade nas bordas */
+    .marquee-strip::before,
+    .marquee-strip::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 100px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .marquee-strip::before {
+      left: 0;
+      background: linear-gradient(to right, rgba(180,100,55,0.60), transparent);
+    }
+    .marquee-strip::after {
+      right: 0;
+      background: linear-gradient(to left, rgba(180,100,55,0.60), transparent);
+    }
+
+    .marquee-track {
       display: flex;
-      flex-direction: column;
-      gap: 0.05em;
-      line-height: 1;
+      /* SEM gap — espaçamento feito com padding no .logo-item */
+      width: max-content;
+      animation: marquee-infinite 28s linear infinite;
     }
 
-    /* ══════════════════════════════════════════
-       DESKTOP ≥ 900px
-    ══════════════════════════════════════════ */
-    @media (min-width: 900px) {
+    /* Pausa ao hover no desktop */
+    @media (hover: hover) {
+      .marquee-strip:hover .marquee-track { animation-play-state: paused; }
+    }
 
-      .hero__bg {
-        background-image: url('img/img1.png');
-      }
+    /*
+      4 sets → anima -50% (metade dos 4 sets = 2 sets)
+      Seamless: ao voltar para 0, a imagem é idêntica
+    */
+    @keyframes marquee-infinite {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
 
-      .hero__overlay {
-        background: linear-gradient(
-          100deg,
-          rgba(15,5,2,0.92) 0%,
-          rgba(15,5,2,0.80) 35%,
-          rgba(15,5,2,0.30) 65%,
-          rgba(15,5,2,0.00) 100%
-        );
-      }
+    .logo-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 68px;
+      /* Espaçamento uniforme — mesmo no ponto de loop */
+      padding: 0 2rem;
+      flex-shrink: 0;
+    }
+    .logo-item img {
+      height: 100%;
+      width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      display: block;
+    }
 
-      .hero {
+    /* ══════════════════════════════════
+       MOBILE < 900px
+    ══════════════════════════════════ */
+    @media (max-width: 899px) {
+
+      /* Texto centralizado no mobile */
+      .hero__body {
+        align-items: flex-end;
         justify-content: center;
+        padding: 4rem 1.2rem 1rem;
       }
 
-      .hero__top,
-      .hero__bottom { display: none; }
-
-      .hero__desktop {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 2rem;
+      .col-text {
+        align-items: center;
+        text-align: center;
+        gap: 1.2rem;
+        width: 100%;
       }
 
-      .hero__desktop .hl-label { font-size: clamp(0.68rem, 0.9vw, 0.82rem); }
-      .hero__desktop .hl-white { font-size: clamp(2rem, 4.5vw, 5rem); }
-      .hero__desktop .hl-gold  { font-size: clamp(2rem, 4.5vw, 5rem); }
+      .hl-dark,
+      .hl-gold { font-size: clamp(2rem, 10vw, 3.2rem); }
+
+      .hero-logo { height: clamp(50px, 14vw, 80px); align-self: center; }
+
+      /* Botão full-width no mobile */
+      .cta-btn {
+        width: 100%;
+        max-width: 340px;
+        justify-content: center;
+        font-size: 1rem;
+        padding: 1rem 1.5rem;
+      }
+
+      /* Tags menores */
+      .deco-tag { font-size: 1.5rem; }
+      .deco-tag--tl { top: 4%; left: 2%; }
+      .deco-tag--tr { top: 4%; right: 2%; }
+
+      /* Carrossel maior no mobile também */
+      .logo-item { height: 56px; padding: 0 1.4rem; }
+      .marquee-strip { padding: 0.85rem 0; }
     }
   </style>
 </head>
 <body>
+<div class="page">
 
-<section class="hero">
-  <div class="hero__bg"></div>
-  <div class="hero__grid"></div>
-  <div class="hero__overlay"></div>
-  <div class="sparkles" id="sparkles"></div>
+  <section class="hero">
+    <div class="hero__bg"></div>
 
-  <!-- ══ MOBILE: topo ══ -->
-  <div class="hero__top">
-    <span class="hl-label">Sra Promo</span>
-    <span class="hl-white">Os melhores</span>
-    <span class="hl-gold">achados</span>
-  </div>
+    <div class="deco-tag deco-tag--tl">🏷️</div>
+    <div class="deco-tag deco-tag--tr">🏷️</div>
 
-  <!-- ══ MOBILE: base ══ -->
-  <div class="hero__bottom">
-    <div>
-      <div class="hl-gold">da internet</div>
-      <div class="hl-white">em um só lugar!</div>
+    <div class="confetti">
+      <span style="width:10px;height:10px;background:#FBCA45;top:8%;left:12%;transform:rotate(30deg)"></span>
+      <span style="width:7px;height:14px;background:#FAD3D2;top:15%;left:18%;transform:rotate(-20deg)"></span>
+      <span style="width:9px;height:9px;background:#FBCA45;top:6%;left:30%;transform:rotate(45deg)"></span>
+      <span style="width:6px;height:12px;background:#fff;top:20%;left:8%;transform:rotate(10deg)"></span>
+      <span style="width:10px;height:10px;background:#FBCA45;top:10%;right:15%;transform:rotate(-30deg)"></span>
+      <span style="width:7px;height:13px;background:#FAD3D2;top:18%;right:22%;transform:rotate(25deg)"></span>
+      <span style="width:9px;height:9px;background:#fff;top:5%;right:35%;transform:rotate(-15deg)"></span>
+      <span style="width:8px;height:8px;background:#FBCA45;top:25%;right:10%;transform:rotate(40deg)"></span>
+      <span style="width:6px;height:11px;background:#FAD3D2;top:30%;left:6%;transform:rotate(-35deg)"></span>
+      <span style="width:10px;height:10px;background:#fff;top:35%;left:20%;transform:rotate(20deg)"></span>
+      <span style="width:8px;height:8px;background:#FBCA45;top:3%;left:50%;transform:rotate(55deg)"></span>
+      <span style="width:6px;height:13px;background:#FAD3D2;top:12%;right:8%;transform:rotate(-10deg)"></span>
     </div>
-    <a href="https://chat.whatsapp.com/J5rQKazk5z51qKkDEnkM2g?mode=wwt&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnB23z0WRSNrFLki0-wQ1X8CvD1PFw0daAkZVDRoiaeXOBm6whFdHinfTguJM_aem_-V3XzaByIhnBuoMUwEUOIg" target="_blank" rel="noopener" class="cta-btn">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
-      Entrar no grupo do WhatsApp
-    </a>
-  </div>
 
-  <!-- ══ DESKTOP ══ -->
-  <div class="hero__desktop">
-    <div style="display:flex;flex-direction:column;gap:0.4rem;">
-    <span class="hl-label">Sra Promo</span>
-    <div class="headline">
-      <span class="hl-white">Os melhores</span>
-      <span class="hl-gold">achados da internet</span>
-      <span class="hl-white">em um só lugar!</span>
+    <div class="hero__body">
+      <div class="col-text">
+        <img src="img/logosrpr.png" alt="Senhora Promo" class="hero-logo" />
+        <div class="headline">
+          <span class="hl-dark">Os melhores</span>
+          <span class="hl-gold">achados da internet</span>
+          <span class="hl-dark">em um só lugar!</span>
+        </div>
+        <a href="https://chat.whatsapp.com/J5rQKazk5z51qKkDEnkM2g?mode=wwt&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnB23z0WRSNrFLki0-wQ1X8CvD1PFw0daAkZVDRoiaeXOBm6whFdHinfTguJM_aem_-V3XzaByIhnBuoMUwEUOIg"
+           target="_blank" rel="noopener" class="cta-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          Entrar no grupo do WhatsApp
+        </a>
+      </div>
     </div>
+
+    <!-- Carrossel infinito — 4 sets → translateX(-50%) sempre seamless -->
+    <div class="marquee-strip">
+      <div class="marquee-track">
+        <!-- Set 1 -->
+        <div class="logo-item"><img src="img/1.png" alt="Logo 1"></div>
+        <div class="logo-item"><img src="img/2.png" alt="Logo 2"></div>
+        <div class="logo-item"><img src="img/3.png" alt="Logo 3"></div>
+        <div class="logo-item"><img src="img/4.png" alt="Logo 4"></div>
+        <div class="logo-item"><img src="img/5.png" alt="Logo 5"></div>
+        <div class="logo-item"><img src="img/6.png" alt="Logo 6"></div>
+        <div class="logo-item"><img src="img/7.png" alt="Logo 7"></div>
+        <div class="logo-item"><img src="img/8.png" alt="Logo 8"></div>
+        <!-- Set 2 -->
+        <div class="logo-item"><img src="img/1.png" alt="Logo 1"></div>
+        <div class="logo-item"><img src="img/2.png" alt="Logo 2"></div>
+        <div class="logo-item"><img src="img/3.png" alt="Logo 3"></div>
+        <div class="logo-item"><img src="img/4.png" alt="Logo 4"></div>
+        <div class="logo-item"><img src="img/5.png" alt="Logo 5"></div>
+        <div class="logo-item"><img src="img/6.png" alt="Logo 6"></div>
+        <div class="logo-item"><img src="img/7.png" alt="Logo 7"></div>
+        <div class="logo-item"><img src="img/8.png" alt="Logo 8"></div>
+        <!-- Set 3 -->
+        <div class="logo-item"><img src="img/1.png" alt="Logo 1"></div>
+        <div class="logo-item"><img src="img/2.png" alt="Logo 2"></div>
+        <div class="logo-item"><img src="img/3.png" alt="Logo 3"></div>
+        <div class="logo-item"><img src="img/4.png" alt="Logo 4"></div>
+        <div class="logo-item"><img src="img/5.png" alt="Logo 5"></div>
+        <div class="logo-item"><img src="img/6.png" alt="Logo 6"></div>
+        <div class="logo-item"><img src="img/7.png" alt="Logo 7"></div>
+        <div class="logo-item"><img src="img/8.png" alt="Logo 8"></div>
+        <!-- Set 4 — espelho dos sets 1+2, garante loop perfeito em qualquer tela -->
+        <div class="logo-item"><img src="img/1.png" alt="Logo 1"></div>
+        <div class="logo-item"><img src="img/2.png" alt="Logo 2"></div>
+        <div class="logo-item"><img src="img/3.png" alt="Logo 3"></div>
+        <div class="logo-item"><img src="img/4.png" alt="Logo 4"></div>
+        <div class="logo-item"><img src="img/5.png" alt="Logo 5"></div>
+        <div class="logo-item"><img src="img/6.png" alt="Logo 6"></div>
+        <div class="logo-item"><img src="img/7.png" alt="Logo 7"></div>
+        <div class="logo-item"><img src="img/8.png" alt="Logo 8"></div>
+      </div>
     </div>
-    <a href="https://chat.whatsapp.com/J5rQKazk5z51qKkDEnkM2g?mode=wwt&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnB23z0WRSNrFLki0-wQ1X8CvD1PFw0daAkZVDRoiaeXOBm6whFdHinfTguJM_aem_-V3XzaByIhnBuoMUwEUOIg" target="_blank" rel="noopener" class="cta-btn">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
-      Entrar no grupo do WhatsApp
-    </a>
-  </div>
 
-</section>
+  </section>
 
-<script>
-  const container = document.getElementById('sparkles');
-  const colors = ['#f0c842','#e91e8c','#ffffff','#d4a017','#ff4db8'];
-  for (let i = 0; i < 30; i++) {
-    const el = document.createElement('div');
-    el.className = 'sparkle';
-    const size = 3 + Math.random() * 7;
-    el.style.cssText = `
-      left:${Math.random()*100}%;
-      top:${10 + Math.random()*80}%;
-      width:${size}px; height:${size}px;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      --dur:${3 + Math.random()*5}s;
-      --delay:${Math.random()*7}s;
-      border-radius:${Math.random()>.4?'50%':'3px'};
-    `;
-    container.appendChild(el);
-  }
-</script>
+</div>
 </body>
 </html>
