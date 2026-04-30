@@ -23,16 +23,17 @@
     }
 
     html, body {
-      height: 100%;
+      height: 100dvh;
       font-family: 'Inter', sans-serif;
       background: var(--bg);
-      overflow-x: hidden;
+      overflow: hidden;
     }
 
     .page {
-      min-height: 100dvh;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
     /* ══════════════════════════════════
@@ -43,7 +44,7 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      min-height: 100dvh;
+      height: 100%;
       overflow: hidden;
       background: linear-gradient(
         105deg,
@@ -81,6 +82,12 @@
     }
     @media (min-width: 900px) {
       .hero__bg { background-image: url('img/img1.png'); }
+
+      /* Desloca conteúdo levemente para a direita */
+      .hero__body {
+        padding-left: clamp(3rem, 62vw, 85rem);
+        padding-right: clamp(2rem, 4vw, 5rem);
+      }
     }
 
     /* ── Camada 3: Confetti ── */
@@ -130,7 +137,7 @@
 
     .hero-logo {
       width: auto;
-      height: clamp(60px, 10vw, 120px);
+      height: clamp(60px, 13vw, 160px);
       object-fit: contain;
       display: block;
       align-self: flex-start;
@@ -145,8 +152,8 @@
 
     .hl-dark {
       font-family: 'Changa One', sans-serif;
-      font-size: clamp(2.2rem, 4.5vw, 5rem);
-      color: var(--text-dark);
+      font-size: clamp(2.2rem, 5.5vw, 6rem);
+      color: #f1e5df;
       letter-spacing: 0.01em;
       text-shadow:
         0 2px 6px rgba(0,0,0,0.30),
@@ -154,7 +161,7 @@
     }
     .hl-gold {
       font-family: 'Changa One', sans-serif;
-      font-size: clamp(2.2rem, 4.5vw, 5rem);
+      font-size: clamp(2.2rem, 5.5vw, 6rem);
       color: var(--gold);
       letter-spacing: 0.01em;
       text-shadow:
@@ -171,9 +178,9 @@
       color: var(--text-dark);
       font-family: 'Inter', sans-serif;
       font-weight: 700;
-      font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+      font-size: clamp(0.9rem, 1.8vw, 1.3rem);
       text-decoration: none;
-      padding: 0.9rem 2rem;
+      padding: 1.1rem 2.6rem;
       border-radius: 100px;
       width: fit-content;
       animation: glow-btn 2.4s ease-in-out infinite;
@@ -197,7 +204,7 @@
       z-index: 10;
       width: 100%;
       overflow: hidden;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.65);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
       border-top:    1px solid rgba(255,255,255,0.25);
@@ -281,8 +288,8 @@
         width: 100%;
       }
 
-      .hl-dark,
-      .hl-gold { font-size: clamp(2rem, 10vw, 3.2rem); }
+      .hl-dark { font-size: clamp(1.5rem, 7.5vw, 2.4rem); color: #f1e5df; }
+      .hl-gold  { font-size: clamp(1.5rem, 7.5vw, 2.4rem); }
 
       .hero-logo { height: clamp(50px, 14vw, 80px); align-self: center; }
 
@@ -302,7 +309,7 @@
 
       /* Carrossel maior no mobile também */
       .logo-item { height: 56px; padding: 0 1.4rem; }
-      .marquee-strip { padding: 0.85rem 0; }
+      .marquee-strip { padding: 0.85rem 0; background: rgba(255,255,255,0.65); }
     }
   </style>
 </head>
